@@ -14,15 +14,15 @@ function App() {
 
        
    <div className='relative z-10 bg-primary'>
-     <Navbar/>
+        <Navbar/>
        <Introduction/>
        <FindWords/>
-       <PracticeWords/>
-       <SendVoice/>
+       {/* <PracticeWords/>
+       <SendVoice/> */}
        {/* <Chat/> */}
-       <LogoSection/>
+       {/* <LogoSection/>
        <Bottom/>
-       <SocialNetWorks/>
+       <SocialNetWorks/> */}
    </div>
    </BrowserRouter>
 
