@@ -1,59 +1,70 @@
-import { useScroll, useSpring, motion, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { thirdImage, voice } from "../assets";
+import {  motion, useMotionValueEvent, useMotionValue, useScroll, useSpring, useTransform, useInView, delay, useAnimate, useAnimation} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { useRouteLoaderData } from "react-router-dom";
+
+import { choose, choose2, playWithThem, practice } from "../assets";
+import { RegisterModal } from "./register_modal";
 
 export const SendVoice = ()=>{
-    const ref = useRef(null);
-    const { scrollYProgress}=useScroll({
-    target: ref,
-    offset: ["start end", "end end"]
-    });
-   
-    const opacity =useTransform( scrollYProgress, [0.1,0.7,1], [0,1,0])
-    const scale =useTransform( scrollYProgress, [0,0.8], [0,4])
-    const opacityText =useTransform( scrollYProgress, [0,0.3], [0,1])
-    const translateText =useTransform( scrollYProgress, [0,0.3, 0.4,0.5, 1], ["-100%","-20%","-0%", "20%","100%"])
-    const translateForm = useTransform(scrollYProgress, [0.2 , 0.3, 0.4 ,1 ],["-100%", "0%", "50%", "100%"])
-    const translateForm2 = useTransform(scrollYProgress, [0.2 , 0.3, 0.4 ,1 ],["100%", "0%", "-50%", "-100%"])
-   
-    
- return (
-    <motion.section ref={ref} className=" relative h-[1000vh] w-full justify-center items-start">
-        <motion.div
-        style={{ 
-            x:translateForm
-            }}
-       className="sticky top-0  right-0  w-[200vw] h-[15vh] bg-blue-600 rounded-[100px]"
-       >
-     </motion.div>
-     <motion.div
-      style={{ 
-        x:translateForm2
-        }}
-       className="sticky top-[60vh]  left-0  w-[300vw] h-[15vh] bg-blue-600 rounded-[100px]"
-       >
-     </motion.div>
-            <motion.div className=" sticky top-[30%] flex flex-col  ">
-                <motion.div
-                    style={{
-                    opacity: opacityText,  
-                    x:translateText
-                    }}
-                    className=" fixed top-[10%] right-0  text-[20px] lg:text-[30px]">
-                        <p>Envía mensajes de voz a tus amigos para que ellos puedan traducir el significado.</p>
+    const ref = useRef(null)
+    const container = useRef(null)
+  const isInView = useInView(ref, {once: false})
+  const controls = useAnimation()
+  const [openModal, setOpenModal] = useState(false)
+  useEffect(() => {
+    if(isInView){
+        controls.start("visible")
+    }else{
+        controls.start("hidden")
+    }
+  }, [isInView])
 
-                        <button
-                        className="ml-3 px-2 my-6 border-2 border-white rounded-lg">Apuntarse</button>
+  const variants = {
+    hidden: {opacity:0, scale:0.2, x:-190},
+    visible: {opacity:1, scale:1, x:0}
+}
+
+ return (
+    <motion.section ref={ref} className=" flex flex-col justify-start items-center   h-[100vh] w-full  ">
+
+                <motion.div
+                  variants={variants}
+                  initial="hidden"
+                  animate= {controls} 
+             
+                  transition={{type: "spring",delay: 0.4, }}
+                    className="flex flex-col text-center justify-center items-center  text-white w-full  text-[20px] ">
+                    <motion.p >Viaja por los juegos creados por otras personas &nbsp;</motion.p>
+            
+                    <motion.button
+                              variants={variants}
+                              initial="hidden"
+                              animate= {controls} 
+                              onClick={()=>setOpenModal(true)}
+                              transition={{type: "spring",delay: 0.6, }}
+                        
+                            className=" px-2 my-6 border-2 border-white rounded-lg">Apuntarse</motion.button>
+                              <RegisterModal onClosed={()=> setOpenModal(false)} open={openModal}/>
                 </motion.div>
-      
-            <motion.img 
-            style={{
-                opacity: opacity, scale,}}
-            src={voice} alt="first-image" className="fixed top-[40%]"  />
-            </motion.div>
+
+ 
+                <motion.img 
+                 variants={variants}
+                 initial="hidden"
+                 animate= {controls} 
+            
+                 transition={{type: "spring",delay: 0.8, }}
+                src={playWithThem} alt="first-image" className="mt-20 object-contain sm:h-[600px]"  />
+           
+  
     
-        
+          
        
+
+      
+        
+        
+
     </motion.section>
  );
 }

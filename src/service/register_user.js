@@ -1,6 +1,8 @@
-const db = getFirestore(app);
+import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore/lite';
+import { app } from '../firebase_config';
 
-async function saveEmail(email) {
+const db = getFirestore(app)
+export async function saveEmail(email) {
     const webemailsCol = collection(db, 'webemails');
   
     try {

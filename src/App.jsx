@@ -1,8 +1,9 @@
 
-import './App.css'
+
 import {BrowserRouter}from 'react-router-dom';
-import { Background, Bottom, Chat, FindWords, Introduction, LogoSection, Navbar, PracticeWords, SendVoice, SocialNetWorks } from './components';
+import {    FindWords, Introduction, LogoSection, Navbar, PracticeWords, SendVoice, SocialNetWorks, YourWords } from './components';
 import { useScroll } from 'framer-motion';
+
 
 function App() {
 
@@ -13,16 +14,16 @@ function App() {
    
 
        
-   <div className='relative z-10 bg-primary'>
+   <div className='flex flex-col  bg-primary'>
         <Navbar/>
-       <Introduction/>
-       <FindWords/>
-       {/* <PracticeWords/>
-       <SendVoice/> */}
-       {/* <Chat/> */}
-       {/* <LogoSection/>
-       <Bottom/>
-       <SocialNetWorks/> */}
+      <Introduction/>
+      <FindWords/>
+      <SendVoice/>
+      <PracticeWords/>
+      <YourWords/> 
+      <LogoSection/>
+
+       <SocialNetWorks/> 
    </div>
    </BrowserRouter>
 

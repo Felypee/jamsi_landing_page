@@ -1,45 +1,70 @@
-import { useScroll, motion, useSpring, useMotionValueEvent, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { playWithThem, practice, secondImage } from "../assets";
+import {  motion, useMotionValueEvent, useMotionValue, useScroll, useSpring, useTransform, useInView, delay, useAnimate, useAnimation} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { useRouteLoaderData } from "react-router-dom";
+
+import { choose, choose2, practice } from "../assets";
+import { RegisterModal } from "./register_modal";
 
 export const PracticeWords = ()=>{
-    const ref = useRef(null);
-    const { scrollYProgress}=useScroll({
-    target: ref,
-    offset: ["start end", "end end"]
-    });
-    const opacity =useTransform( scrollYProgress, [0,0.2,0.6,0.85,1], [0,0,1, 1,0])
-    const scale =useTransform( scrollYProgress, [0,0.5,0.85, 1], [0,5,10,300])
-    const opacityText =useTransform( scrollYProgress, [0,0.1,0.85,1], [0,1,1,0])
-    const translateText =useTransform( scrollYProgress, [0,0.1,0.85,1], ["20%","0%","-20%","-100%"])
+    const ref = useRef(null)
+    const container = useRef(null)
+  const isInView = useInView(ref, {once: false})
+  const controls = useAnimation()
+  const [openModal, setOpenModal] = useState(false)
+  useEffect(() => {
+    if(isInView){
+        controls.start("visible")
+    }else{
+        controls.start("hidden")
+    }
+  }, [isInView])
 
+  const variants = {
+    hidden: {opacity:0, scale:0.2, x:190},
+    visible: {opacity:1, scale:1, x:0}
+}
 
  return (
-    <motion.section ref={ref} className=" flex justify-center items-start">
-        <div className="h-[600vh] w-full">
-            <div className="flex sticky top-0">
-            <motion.img 
-         style={{
-            scale: scale,
-            opacity: opacity,
-            }}
-         src={playWithThem} alt="first-image" className="fixed top-[5%] h-[76%] w-[76%] " />
+    <motion.section ref={ref} className=" flex flex-col justify-start items-center   h-[100vh] w-full  ">
 
+                <motion.div
+                  variants={variants}
+                  initial="hidden"
+                  animate= {controls} 
+             
+                  transition={{type: "spring",delay: 0.4, }}
+                    className="flex flex-col text-center justify-center items-center  text-white w-full  text-[20px] ">
+                    <motion.p >Practica con ejercicios tu pronunciación &nbsp;</motion.p>
+            
+                    <motion.button
+                              variants={variants}
+                              initial="hidden"
+                              animate= {controls} 
+                              onClick={()=>setOpenModal(true)}
+                              transition={{type: "spring",delay: 0.6, }}
+                        
+                            className=" px-2 my-6 border-2 border-white rounded-lg">Apuntarse</motion.button>
+                              <RegisterModal onClosed={()=> setOpenModal(false)} open={openModal}/>
+                </motion.div>
 
-        <motion.div
-         style={{
-            opacity: opacityText, 
-            x:translateText}}
-        className="fixed top-[80%] text-white border-black text-[20px] lg:text-[30px]">
-            <p>Juega con ejercicios de otras personas</p>
-            <button
-         className="ml-3 px-2 my-6 border-2 border-white rounded-lg border-black">Apuntarse</button>
-        </motion.div>
-            </div>
+ 
+                <motion.img 
+                 variants={variants}
+                 initial="hidden"
+                 animate= {controls} 
+            
+                 transition={{type: "spring",delay: 0.8, }}
+                src={practice} alt="first-image" className="mt-20 object-contain sm:h-[600px]"  />
+           
+  
+    
+          
        
-        </div>
-         
-       
+
+      
+        
+        
+
     </motion.section>
  );
 }

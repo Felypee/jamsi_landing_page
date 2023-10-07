@@ -5,8 +5,8 @@ import { Introduction } from "./introduction_sentece"
 import { FindWords } from "./find_words"
 import { PracticeWords } from "./practice_words"
 import { SendVoice } from "./send_voice"
-import { Chat } from "./chat"
-import { Bottom } from "./bottom"
+import { YourWords } from "./your_words"
+
 import { SocialNetWorks } from "./social_networks"
 import { LogoSection } from "./logo"
 import { Background } from "./background"
@@ -17,10 +17,10 @@ export {
     FindWords,
     PracticeWords,
     SendVoice,
-    Chat,
-    Bottom,
+    YourWords,
     SocialNetWorks,
     LogoSection,
     Background,
-    RegisterModal
+    RegisterModal,
+
 }
